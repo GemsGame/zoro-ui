@@ -8,6 +8,12 @@ import { useAuth } from "context/AuthContext";
 import React from "react";
 import { useTranslation } from "translation";
 import { truncateAddress } from "utilities";
+import {
+  useConnectModal,
+  useAccountModal,
+  useChainModal,
+} from '@rainbow-me/rainbowkit';
+
 
 export interface ConnectButtonProps extends ButtonProps {
   accountAddress?: string;
@@ -38,11 +44,12 @@ export const ConnectButtonUi: React.FC<ConnectButtonProps> = ({
 export const ConnectButton: React.FC<ButtonProps> = (props) => {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   const { accountAddress, openAuthModal } = useAuth();
-
+  const { openConnectModal } = useConnectModal();
+  
   return (
     <ConnectButtonUi
       accountAddress={accountAddress}
-      onClick={wallet ? openAuthModal : async () => await connect()}
+      onClick={openConnectModal}
       variant={wallet ? "secondary" : "primary"}
       {...props}
       className="custom-btn-wrap"
